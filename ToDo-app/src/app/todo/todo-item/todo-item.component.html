@@ -4,7 +4,7 @@
     <div class="view">
       <input class="toggle" type="checkbox" [formControl]="checkField" [checked]="todo.completado">
       <label (dblclick)="editar()">{{ todo.texto }}</label>
-      <button class="destroy"></button>
+      <button class="destroy" (click)="borrar()"></button>
     </div>
-    <input class="edit" [value]="todo.texto" [formControl]="txtInput" (blur)="terminarEdicion()" #txtInputfisico>
+    <input class="edit" [value]="todo.texto" [formControl]="txtInput" (blur)="terminarEdicion()" (keyup.enter)="terminarEdicion()" #txtInputfisico>
   </li>
