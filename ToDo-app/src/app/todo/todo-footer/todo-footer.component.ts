@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as fromFilter from '../../filter/filter.actions';
+import * as fromTodo from '../todo.actions';
 import { AppState } from 'src/app/app.reducer';
 import { Store } from '@ngrx/store';
 import { Todo } from '../todo-model';
@@ -14,6 +15,7 @@ export class TodoFooterComponent implements OnInit {
   filtrosValidos: fromFilter.validFilters [] = ['todos', 'completados', 'pendientes'];
   filtroActual: fromFilter.validFilters;
   pendientes: number;
+  completados: Todo[];
 
 
   constructor(private store: Store<AppState>) {
@@ -34,5 +36,10 @@ export class TodoFooterComponent implements OnInit {
 
   contarPendientes( todos: Todo[]) {
     this.pendientes = todos.filter( todo => !todo.completado).length;
+  }
+
+  borrarTodos() {
+    const accion = new fromTodo.ClearFilterAction(true);
+    this.store.dispatch(accion);
   }
 }

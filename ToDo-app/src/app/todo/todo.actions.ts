@@ -6,6 +6,8 @@ export const TOGGLE_TODO = '[TODO] TOGGLE todo';
 export const TOGGLE_ALL_TODO = '[TODO] TOGGLE ALL todo';
 export const EDITAR_TODO = '[TODO] Edit todo';
 export const BORRAR_TODO = '[TODO] Delate todo';
+export const CLEAR_DONE = '[Filter] clear done';
+
 
 export class AgregarTodoAction implements Action {
 
@@ -42,9 +44,16 @@ export class BorrarTodoAction implements Action {
     constructor(public id: number) {}
 }
 
+export class ClearFilterAction implements Action {
+
+    readonly type = CLEAR_DONE;
+    constructor( public completado: boolean) {}
+}
+
 export type Acciones = AgregarTodoAction |
                         ToggleTodoAction |
                         BorrarTodoAction |
                         ToggleAllTodoAction |
+                        ClearFilterAction |
                         EditarTodoAction;
 
