@@ -9,6 +9,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
+// ngrx
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { appReducers } from './app.reducer';
+import { StoreModule } from '@ngrx/store';
+
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -34,7 +40,7 @@ import { AuthService } from './auth/auth.service';
     DetalleComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent,
+    SidebarComponent
 
   ],
   imports: [
@@ -43,7 +49,12 @@ import { AuthService } from './auth/auth.service';
     FormsModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    StoreModule.forRoot(appReducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -10,6 +10,11 @@ import { map } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 import { User } from './user.model';
+import { AppState } from '../app.reducer';
+import { Store } from '@ngrx/store';
+import { ActivarLoadingAction, DesactivarLoadingAction } from '../shared/ui.actions';
+import { SetUserAction } from './auth.actions';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +23,17 @@ import { User } from './user.model';
 
 export class AuthService {
 
-  constructor( private afAuth: AngularFireAuth, private router: Router, private afDb: AngularFirestore) { }
+  private userSubscription: Subscription;
+
+  constructor( private afAuth: AngularFireAuth,
+    private router: Router,
+    private afDb: AngularFirestore,
+    private store: Store<AppState>) { }
 
 
   crearUsuario(email, nombre: string, password) {
+
+    this.store.dispatch ( new ActivarLoadingAction() );
 
     this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(resp => {
       console.log(resp);
@@ -34,10 +46,13 @@ export class AuthService {
       this.afDb.doc(`${ user.uid }/usuario`)
         .set( user )
         .then( () => {
+
           this.router.navigate(['/']);
+          this.store.dispatch( new DesactivarLoadingAction );
         });
     })
     .catch(error => {
+      this.store.dispatch( new DesactivarLoadingAction );
       console.error(error);
 
       Swal.fire({
@@ -49,7 +64,6 @@ export class AuthService {
     });
 
   }
-
 
   ingresarUsuario(email, nombre, password) {
 
@@ -70,7 +84,6 @@ export class AuthService {
 
   }
 
-
   logOut() {
 
     this.router.navigate(['/login']);
@@ -78,9 +91,25 @@ export class AuthService {
   }
 
   initAuthListener() {
+
+
+
     this.afAuth.authState.subscribe( (fbUser: firebase.User) => {
-      console.log(fbUser);
+
+      if ( fbUser ) {
+        this.userSubscription = this.afDb.doc(`${ fbUser.uid }/usuario`).valueChanges().subscribe( (usuarioObj: any) => {
+          const newUser = new User( usuarioObj );
+          this.store.dispatch( new SetUserAction(newUser) ); 
+        });
+
+      } else {
+        this.userSubscription.unsubscribe();
+      }
+
+
     });
+
+
   }
 
   isAuth( ) {
