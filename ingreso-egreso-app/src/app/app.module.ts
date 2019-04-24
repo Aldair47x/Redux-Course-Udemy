@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ChartsModule } from 'ng2-charts';
 // Modulos
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -27,6 +27,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth/auth.service';
+import { IngresoEgresoService } from './ingreso-egreso/ingreso-egreso.service';
 
 
 @NgModule({
@@ -45,8 +46,10 @@ import { AuthService } from './auth/auth.service';
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
@@ -56,7 +59,7 @@ import { AuthService } from './auth/auth.service';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, IngresoEgresoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
