@@ -1,10 +1,14 @@
 
 import * as fromIngresoEgreso from './ingreso-egreso.actions';
 import { IngresoEgreso } from './ingreso-egreso-model';
-import { map } from 'rxjs/operators';
+import { AppState } from '../app.reducer';
 
 export interface IngresoEgresoState {
     items: IngresoEgreso[];
+}
+
+export interface IngresoEgresoStateAppState extends AppState {
+    ingresoEgreso: IngresoEgresoState;
 }
 
 

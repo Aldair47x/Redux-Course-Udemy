@@ -1,12 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ChartsModule } from 'ng2-charts';
+
 // Modulos
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
 // ngrx
@@ -16,41 +15,22 @@ import { StoreModule } from '@ngrx/store';
 
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
-import { EstadisticaComponent } from './ingreso-egreso/estadistica/estadistica.component';
-import { DetalleComponent } from './ingreso-egreso/detalle/detalle.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { environment } from 'src/environments/environment';
-import { AuthService } from './auth/auth.service';
-import { IngresoEgresoService } from './ingreso-egreso/ingreso-egreso.service';
+
+// Modulos personalizados
+import { AuthModule } from './auth/auth.module';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    DashboardComponent,
-    IngresoEgresoComponent,
-    EstadisticaComponent,
-    DetalleComponent,
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent
+    AppComponent
 
   ],
   imports: [
     BrowserModule,
-    ChartsModule,
+    AuthModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     StoreModule.forRoot(appReducers),
@@ -59,7 +39,7 @@ import { IngresoEgresoService } from './ingreso-egreso/ingreso-egreso.service';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
   ],
-  providers: [AuthService, IngresoEgresoService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

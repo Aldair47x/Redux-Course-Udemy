@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 
 export class AuthService {
 
-  private userSubscription: Subscription;
+  private userSubscription: Subscription = new Subscription();
   private usuario: User;
 
   constructor( private afAuth: AngularFireAuth,
@@ -131,26 +131,9 @@ export class AuthService {
     );
   }
 
+
   getUsuario() {
     return {...this.usuario };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
   }
 }
